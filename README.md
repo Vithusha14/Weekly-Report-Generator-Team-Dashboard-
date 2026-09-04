@@ -1,4 +1,4 @@
-# WeekPulse — Weekly Report Generator & Team Dashboard
+# WeekPulse - Weekly Report Generator & Team Dashboard
 
 Full-stack internal tool for structured weekly reports, manager review/correction workflows, and team analytics.
 
