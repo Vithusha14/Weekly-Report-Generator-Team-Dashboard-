@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  TEAM_MEMBER
+  MANAGER
+  ADMIN
+}
+
+enum ReportStatus {
+  DRAFT
+  SUBMITTED
+  NEEDS_CORRECTION
+  APPROVED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum TaskItemStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  BLOCKED
+}
+
+enum ReviewActionType {
+  APPROVED
+  REQUESTED_CHANGES
+}
+
+model User {
+  id                 String              @id @default(cuid())
+  email              String              @unique
+  name               String
+  passwordHash       String
+  role               Role                @default(TEAM_MEMBER)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  reports            Report[]
+  reviewActions      ReviewAction[]
+  projectMemberships ProjectMembership[]
+}
+
+model Project {
+  id          String              @id @default(cuid())
+  name        String              @unique
+  description String?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  reports     Report[]
+  memberships ProjectMembership[]
+}
+
+model ProjectMembership {
+  id        String   @id @default(cuid())
+  userId    String
+  projectId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, projectId])
+}
+
+model Report {
+  id                   String         @id @default(cuid())
+  authorId             String
+  projectId            String
+  weekStart            DateTime
+  weekEnd              DateTime
+  status               ReportStatus   @default(DRAFT)
+  tasksCompleted       Json
+  tasksPlannedNextWeek Json
+  blockers             Json
+  achievements         Json
+  hoursByType          Json?
+  notes                String?
+  links                String?
+  latestComment        String?
+  submittedAt          DateTime?
+  approvedAt           DateTime?
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  author               User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  project              Project        @relation(fields: [projectId], references: [id])
+  versions             ReportVersion[]
+  reviewActions        ReviewAction[]
+
+  @@index([authorId, weekStart])
+  @@index([status])
+  @@index([projectId])
+  @@index([weekStart, weekEnd])
+}
+
+model ReportVersion {
+  id            String         @id @default(cuid())
+  reportId      String
+  versionNumber Int
+  snapshot      Json
+  submittedAt   DateTime       @default(now())
+  report        Report         @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reviewActions ReviewAction[]
+
+  @@unique([reportId, versionNumber])
+}
+
+model ReviewAction {
+  id              String           @id @default(cuid())
+  reportId        String
+  reportVersionId String?
+  reviewerId      String
+  action          ReviewActionType
+  comment         String?
+  createdAt       DateTime         @default(now())
+  report          Report           @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reportVersion   ReportVersion?   @relation(fields: [reportVersionId], references: [id], onDelete: SetNull)
+  reviewer        User             @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+
+  @@index([reportId, createdAt])
+}

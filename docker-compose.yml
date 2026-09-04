@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: weekly-reports-db
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: weekly
+      POSTGRES_PASSWORD: weekly
+      POSTGRES_DB: weekly_reports
+    volumes:
+      - weekly_reports_pg:/var/lib/postgresql/data
+
+volumes:
+  weekly_reports_pg:
