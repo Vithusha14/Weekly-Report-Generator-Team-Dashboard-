@@ -54,9 +54,6 @@ function LoginForm() {
           Register
         </Link>
       </p>
-      <p className="rounded-md bg-[var(--sand)] px-3 py-2 text-xs text-[var(--muted)]">
-        Demo: manager@weekly.app / sam@weekly.app — password Password123!
-      </p>
     </form>
   );
 }
