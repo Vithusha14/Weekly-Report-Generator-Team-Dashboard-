@@ -206,23 +206,7 @@ npm run start
 
 ---
 
-## 5. Demo accounts
-
-Password for **all** users: `Password123!`
-
-| Role | Email |
-|------|--------|
-| Admin | `admin@weekly.app` |
-| Manager | `manager@weekly.app` |
-| Team Member | `sam@weekly.app` |
-| Team Member | `jordan@weekly.app` |
-| Team Member | `casey@weekly.app` |
-| Team Member | `taylor@weekly.app` |
-| Team Member | `riley@weekly.app` |
-
----
-
-## 6. Frontend pages
+## 5. Frontend pages
 
 | Page | Route | Who |
 |------|-------|-----|
@@ -240,7 +224,7 @@ Password for **all** users: `Password123!`
 
 ---
 
-## 7. Backend API (REST)
+## 6. Backend API (REST)
 
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
@@ -261,7 +245,7 @@ All protected routes enforce **role-based access control** on the server.
 
 ---
 
-## 8. Scripts
+## 7. Scripts
 
 | Command | Purpose |
 |---------|---------|
@@ -277,7 +261,7 @@ All protected routes enforce **role-based access control** on the server.
 
 ---
 
-## 9. AI assistant (optional)
+## 8. AI assistant (optional)
 
 - Managers get an in-app chat widget.
 - Uses OpenAI or Anthropic if an API key is set.
@@ -286,7 +270,7 @@ All protected routes enforce **role-based access control** on the server.
 
 ---
 
-## 10. Docs
+## 9. Docs
 
 - Architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - ER diagram notes: [docs/ER-DIAGRAM.md](docs/ER-DIAGRAM.md)
